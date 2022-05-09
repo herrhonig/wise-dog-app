@@ -1,2 +1,3 @@
-# wda
-Wise dog app
+# Wise Dog App
+
+<h2> Desription </h2>
