@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { delCard, getTipThunk } from '../../redux/actions/dogsAction';
+import { addToFav, delCard, getTipThunk } from '../../redux/actions/dogsAction';
 // modal window imports from MUI:
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -107,7 +107,7 @@ const DogCard = (props) => {
   const handleOpen = () => {
     setTimeout(() => {
     dispatch(getTipThunk());
-    }, 800)
+    }, 800);
     setOpen(true);
   };
   const handleClose = () => {
@@ -115,7 +115,8 @@ const DogCard = (props) => {
   };
   //handlers:
   const likeHandler = () => {
-
+    console.log('liked!');
+    dispatch(addToFav(props.id));
   };
   const dislikeHandler = () => {
     dispatch(delCard(props.id));

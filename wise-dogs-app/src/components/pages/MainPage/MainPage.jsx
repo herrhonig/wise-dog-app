@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDogsThunk } from '../../../redux/actions/dogsAction';
 import styled from 'styled-components';
@@ -14,9 +14,7 @@ import MailIcon from '@mui/icons-material/Mail';
 const FlexContainer = styled.div `
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-
-  
+  justify-content: space-around;
 `;
 const FavBtnContainer = styled.div `
   display: flex;
@@ -25,7 +23,7 @@ const FavBtnContainer = styled.div `
   height: 70px;
   justify-content: center;
   align-items: center;
-  margin-top: 5px;
+  /* margin-top: 5px; */
 `;
 const LoaderContainer = styled.div `
   display: flex;
@@ -56,11 +54,17 @@ const MainPage = () => {
 
   
   const dispatch = useDispatch();
+  const [ favFilter, setFavFilter ] = useState(false);
+
   const dogs = useSelector(state => state.dogs.dogList);
   const tip = useSelector(state => state.dogs.tips);
-  console.log(dogs);
+  const likeAmount = dogs.filter((dog) => dog.isLiked === true);
+  console.log(likeAmount);
+
   useEffect(() => {
-        dispatch(getDogsThunk()); 
+    setTimeout(() => {
+      dispatch(getDogsThunk()); 
+    }, 1500)
   }, [dispatch])
 
   
@@ -74,16 +78,22 @@ const MainPage = () => {
     :
     <>
       <FavBtnContainer>
-        <FavBtn> Favorites : 
-          <Badge color="secondary" badgeContent={0} showZero>
+        <FavBtn onClick={() => setFavFilter(prev => !prev)}> Favorites : 
+          <Badge color="secondary" badgeContent={likeAmount.length} showZero>
             <MailIcon />
           </Badge>
         </FavBtn>
        </FavBtnContainer>
-      
+
+      {favFilter ? 
+      <FlexContainer>
+        {dogs.length && dogs.map((dog) => dog.isLiked ? <DogCard key={dog.id} id={dog.id} image={dog.url}/> : null)}
+      </FlexContainer>
+      :
       <FlexContainer>
         {dogs.length && dogs.map((dog) => <DogCard key={dog.id} id={dog.id} image={dog.url}/>)}
       </FlexContainer>
+      }
     </>
     }
     </>

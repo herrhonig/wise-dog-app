@@ -2,7 +2,8 @@ export const initState = () => {
   return {
     dogs: {
       tips: [],
-      dogList: []
+      dogList: [],
+      favs: [],
     }
   }
 }
