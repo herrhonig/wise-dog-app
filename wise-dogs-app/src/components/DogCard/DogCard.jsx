@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-
+// modal window imports from MUI:
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { getTipThunk } from '../../redux/actions/dogsAction';
 
 const Card = styled.div `
   height: 567px;
@@ -15,7 +21,7 @@ const Card = styled.div `
     transition: .4s;
   }
 `;
-const Button = styled.button `
+const TipButton = styled.button `
   margin-top: 20px;
   width: 98%;
   height: 76.34px;
@@ -77,8 +83,32 @@ const LikeField = styled.div `
   align-items: center;
   color: #fff7f7;
 `;
-const DogCard = (props) => {
+// modal window style obj:
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
+// COMPONENT:
+const DogCard = (props) => {
+  const dispatch = useDispatch();
+  const doggoTip = useSelector(state => state.dogs.tips);
+
+
+  // Modal window handlers:
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    dispatch(getTipThunk());
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
   //handlers:
   const likeHandler = () => {
     console.log('Liked!');
@@ -86,17 +116,40 @@ const DogCard = (props) => {
   const dislikeHandler = () => {
     console.log('disLiked!');
   }
+
   return (
+    <>
+    {open
+    ?
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Doggo tip:
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {doggoTip}
+          </Typography>
+        </Box>
+      </Modal>
+    </div>
+    :
+    null
+    }
     <Card>
       <DogPic src={props.image}/>
       <LikeField>
-        {/* <div><span onClick={likeHandler} class="material-symbols-outlined">thumb_up</span></div>
-        <div><span onClick={dislikeHandler} class="material-symbols-outlined">thumb_down</span></div> */}
         <LikeBtn onClick={likeHandler}>like</LikeBtn>
         <DislikeBtn onClick={dislikeHandler}>dislike</DislikeBtn>
       </LikeField>
-      <Button>The dog says...</Button>
+      <TipButton onClick={handleOpen}>The dog says...</TipButton>
     </Card>
+    </>
   )
 }
 
