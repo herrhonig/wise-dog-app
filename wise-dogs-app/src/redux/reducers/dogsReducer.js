@@ -1,5 +1,5 @@
 import { initState } from "../init/initState";
-import { GET_WISE_DOGS } from "../types/dogTypes";
+import { DEL_DOG_CARD, GET_WISE_DOGS } from "../types/dogTypes";
 import { GET_DOGGO_TIP } from "../types/dogTypes";
 
 export const dogsReducer = (state = initState, action) => {
@@ -11,6 +11,10 @@ export const dogsReducer = (state = initState, action) => {
 
     case GET_DOGGO_TIP:
       return {...state, tips: payload};
+    
+    case DEL_DOG_CARD:
+      return {...state, dogList: state.dogList.filter((dog) => dog.id !== payload)}
+
     default:
       return state;
   }

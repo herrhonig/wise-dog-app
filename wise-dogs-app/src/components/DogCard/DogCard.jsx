@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { delCard, getTipThunk } from '../../redux/actions/dogsAction';
 // modal window imports from MUI:
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { getTipThunk } from '../../redux/actions/dogsAction';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Card = styled.div `
   height: 567px;
@@ -14,7 +15,7 @@ const Card = styled.div `
   box-shadow: 0px 8.48242px 25.4473px rgba(29, 29, 27, 0.24);
   border-radius: 4.24121px;
   margin: 30px;
-  background-color: #fffbfc;
+  background-color:#4a4a66;
 
   &:hover {
     transform: scale(1.1);
@@ -73,7 +74,6 @@ const DogPic = styled.img `
   height: 400px;
   margin: 3px;
   border-radius: 4.77136px;
-
 `;
 const LikeField = styled.div `
   width: 100%;
@@ -98,24 +98,28 @@ const style = {
 
 // COMPONENT:
 const DogCard = (props) => {
+
   const dispatch = useDispatch();
   const doggoTip = useSelector(state => state.dogs.tips);
-
 
   // Modal window handlers:
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
+    setTimeout(() => {
     dispatch(getTipThunk());
+    }, 800)
     setOpen(true);
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
   //handlers:
   const likeHandler = () => {
-    console.log('Liked!');
-  }
+
+  };
   const dislikeHandler = () => {
-    console.log('disLiked!');
-  }
+    dispatch(delCard(props.id));
+  };
 
   return (
     <>
@@ -133,7 +137,7 @@ const DogCard = (props) => {
             Doggo tip:
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {doggoTip}
+            {doggoTip.length === 0 ? <CircularProgress /> : doggoTip}
           </Typography>
         </Box>
       </Modal>

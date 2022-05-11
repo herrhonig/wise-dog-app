@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {DOG_API} from '../api/dogsApi';
 import { TIP_API } from '../api/tipsApi';
-import {GET_WISE_DOGS} from '../types/dogTypes';
+import {GET_WISE_DOGS, DEL_DOG_CARD} from '../types/dogTypes';
 
 export const addDogs = (value) => {
   return {
@@ -15,11 +15,17 @@ export const addTips = (value) => {
     payload: value,
   }
 }
+export const delCard = (id) => {
+  console.log('clicked card ID to del=>', id);
+  return {
+    type: DEL_DOG_CARD,
+    payload: id,
+  }
+}
 
 // THUNK:
 export const getDogsThunk = () => async (dispatch) => {
   const dogs = await axios(DOG_API);
-  console.log('DOG DATA API ==>', dogs.data);
   dispatch(addDogs(dogs.data))
 }
 export const getTipThunk = () => async (dispatch) => {

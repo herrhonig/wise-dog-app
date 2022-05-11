@@ -4,7 +4,8 @@ import { getDogsThunk } from '../../../redux/actions/dogsAction';
 import styled from 'styled-components';
 import DogCard from '../../DogCard/DogCard';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import Badge from '@mui/material/Badge';
+import MailIcon from '@mui/icons-material/Mail';
 
 
 
@@ -14,6 +15,40 @@ const FlexContainer = styled.div `
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  
+`;
+const FavBtnContainer = styled.div `
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+`;
+const LoaderContainer = styled.div `
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+`;
+const FavBtn = styled.button `
+    width: 120px;
+    height: 50px;
+    top:50%;
+    padding: 2px;
+    background-color:#4a4a66;
+    color: #fff;
+    font-weight: 700;
+    border:1px solid #0a0a38;
+    border-radius: 20px;
+
+    &:hover {
+    background-color: #b2b2b6;
+  }
 `;
 
 //COMPONENT:
@@ -23,22 +58,34 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const dogs = useSelector(state => state.dogs.dogList);
   const tip = useSelector(state => state.dogs.tips);
-  
+  console.log(dogs);
   useEffect(() => {
-
         dispatch(getDogsThunk()); 
-
   }, [dispatch])
-  
-  if (dogs?.length === 0) {
-    return <CircularProgress />
-  }
+
   
   return (
     <>
+    {dogs?.length === 0 
+    ?
+    <LoaderContainer>
+      <CircularProgress />
+    </LoaderContainer>
+    :
+    <>
+      <FavBtnContainer>
+        <FavBtn> Favorites : 
+          <Badge color="secondary" badgeContent={0} showZero>
+            <MailIcon />
+          </Badge>
+        </FavBtn>
+       </FavBtnContainer>
+      
       <FlexContainer>
-        {dogs.length && dogs.map((dog) => <DogCard key={dog.id} image={dog.url}/>)}
+        {dogs.length && dogs.map((dog) => <DogCard key={dog.id} id={dog.id} image={dog.url}/>)}
       </FlexContainer>
+    </>
+    }
     </>
   )
   
