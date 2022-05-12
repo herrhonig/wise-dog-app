@@ -8,7 +8,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
+//Styled comp:
 const Card = styled.div `
   height: 567px;
   width: 350px;
@@ -98,9 +100,9 @@ const style = {
 
 // COMPONENT:
 const DogCard = (props) => {
-
-  const dispatch = useDispatch();
+  const [isLiked, setIsliked] = useState(false);
   const doggoTip = useSelector(state => state.dogs.tips);
+  const dispatch = useDispatch();
 
   // Modal window handlers:
   const [open, setOpen] = useState(false);
@@ -113,9 +115,9 @@ const DogCard = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  //handlers:
+  //Handlers:
   const likeHandler = () => {
-    console.log('liked!');
+    setIsliked(prev => !prev);
     dispatch(addToFav(props.id));
   };
   const dislikeHandler = () => {
@@ -149,7 +151,7 @@ const DogCard = (props) => {
     <Card>
       <DogPic src={props.image}/>
       <LikeField>
-        <LikeBtn onClick={likeHandler}>like</LikeBtn>
+        <LikeBtn onClick={likeHandler}> {isLiked ? <ThumbUpIcon /> : 'like'}</LikeBtn>
         <DislikeBtn onClick={dislikeHandler}>dislike</DislikeBtn>
       </LikeField>
       <TipButton onClick={handleOpen}>The dog says...</TipButton>

@@ -1,1 +1,5 @@
-export const TIP_API = 'https://api.adviceslip.com/advice';
+import axios from 'axios';
+
+export default axios.create({
+  baseURL:'https://api.adviceslip.com/advice',
+});

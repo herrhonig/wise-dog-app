@@ -10,7 +10,7 @@ export const dogsReducer = (state = initState, action) => {
       return {...state, dogList: payload};
 
     case GET_DOGGO_TIP:
-      return {...state, tips: payload};
+      return {...state, tips: `${payload} Woof!`};
     
     case DEL_DOG_CARD:
       console.log(state);

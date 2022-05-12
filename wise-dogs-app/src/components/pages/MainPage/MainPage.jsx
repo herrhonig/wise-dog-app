@@ -7,14 +7,22 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 
-
-
-
 //Styled comp:
 const FlexContainer = styled.div `
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  background-color: #c9c9e6;
+
+`;
+const FavFlexContainer = styled.div `
+  height: 660px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: #c9c9e6;
+
 `;
 const FavBtnContainer = styled.div `
   display: flex;
@@ -23,7 +31,8 @@ const FavBtnContainer = styled.div `
   height: 70px;
   justify-content: center;
   align-items: center;
-  /* margin-top: 5px; */
+  background-color: #c9c9e6;
+
 `;
 const LoaderContainer = styled.div `
   display: flex;
@@ -32,40 +41,39 @@ const LoaderContainer = styled.div `
   height: 70px;
   justify-content: center;
   align-items: center;
+  background-color: white;
 `;
 const FavBtn = styled.button `
-    width: 120px;
-    height: 50px;
-    top:50%;
-    padding: 2px;
-    background-color:#4a4a66;
-    color: #fff;
-    font-weight: 700;
-    border:1px solid #0a0a38;
-    border-radius: 20px;
+  width: 130px;
+  height: 50px;
+  top:50%;
+  padding: 2px;
+  background-color:#4a4a66;
+  color: #fff;
+  font-weight: 700;
+  border:1px solid #0a0a38;
+  border-radius: 20px;
 
-    &:hover {
-    background-color: #b2b2b6;
+  &:hover {
+  background-color: #b2b2b6;
   }
 `;
 
 //COMPONENT:
 const MainPage = () => {
 
-  
   const dispatch = useDispatch();
-  const [ favFilter, setFavFilter ] = useState(false);
+  const [ favFilter,  setFavFilter ] = useState(false);
 
   const dogs = useSelector(state => state.dogs.dogList);
   const tip = useSelector(state => state.dogs.tips);
   const likeAmount = dogs.filter((dog) => dog.isLiked === true);
-  console.log(likeAmount);
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(getDogsThunk()); 
-    }, 1500)
-  }, [dispatch])
+    }, 1500);
+  }, [dispatch]);
 
   
   return (
@@ -78,7 +86,7 @@ const MainPage = () => {
     :
     <>
       <FavBtnContainer>
-        <FavBtn onClick={() => setFavFilter(prev => !prev)}> Favorites : 
+        <FavBtn onClick={() => setFavFilter(prev => !prev)}> Favourites : 
           <Badge color="secondary" badgeContent={likeAmount.length} showZero>
             <MailIcon />
           </Badge>
@@ -86,19 +94,18 @@ const MainPage = () => {
        </FavBtnContainer>
 
       {favFilter ? 
-      <FlexContainer>
-        {dogs.length && dogs.map((dog) => dog.isLiked ? <DogCard key={dog.id} id={dog.id} image={dog.url}/> : null)}
-      </FlexContainer>
+      <FavFlexContainer>
+        {dogs.length && dogs?.map((dog) => dog.isLiked ? <DogCard key={dog?.id} id={dog?.id} image={dog?.url}/> : null)}
+      </FavFlexContainer>
       :
       <FlexContainer>
-        {dogs.length && dogs.map((dog) => <DogCard key={dog.id} id={dog.id} image={dog.url}/>)}
+        {dogs.length && dogs?.map((dog) => <DogCard key={dog?.id} id={dog?.id} image={dog?.url}/>)}
       </FlexContainer>
       }
     </>
     }
     </>
   )
-  
 }
 
 export default MainPage

@@ -1,6 +1,5 @@
-import axios from 'axios';
-import {DOG_API} from '../api/dogsApi';
-import { TIP_API } from '../api/tipsApi';
+import dogsApi from '../api/dogsApi';
+import tipsApi from '../api/tipsApi';
 import {GET_WISE_DOGS, DEL_DOG_CARD, GET_DOGGO_TIP, ADD_DOG_TO_FAV} from '../types/dogTypes';
 
 export const getDogs = (value) => {
@@ -30,7 +29,7 @@ export const addToFav = (id) => {
 
 // THUNK:
 export const getDogsThunk = () => async (dispatch) => {
-  const dogs = await axios(DOG_API);
+  const dogs = await dogsApi.get();
   const apiDogInfo = await dogs.data.map((item, index) => ({
     id: index + 1,
     image: item.image,
@@ -40,7 +39,7 @@ export const getDogsThunk = () => async (dispatch) => {
   dispatch(getDogs(apiDogInfo))
 }
 export const getTipThunk = () => async (dispatch) => {
-  const resultTip = await axios(TIP_API);
+  const resultTip = await tipsApi.get();
   const doggoTip = resultTip.data.slip.advice
   dispatch(getTips(doggoTip))
 }
