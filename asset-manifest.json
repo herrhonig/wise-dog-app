@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/wise-dog-app/static/css/main.a240c550.css",
-    "main.js": "/wise-dog-app/static/js/main.d915a72a.js",
+    "main.js": "/wise-dog-app/static/js/main.0ae3304d.js",
     "index.html": "/wise-dog-app/index.html",
     "main.a240c550.css.map": "/wise-dog-app/static/css/main.a240c550.css.map",
-    "main.d915a72a.js.map": "/wise-dog-app/static/js/main.d915a72a.js.map"
+    "main.0ae3304d.js.map": "/wise-dog-app/static/js/main.0ae3304d.js.map"
   },
   "entrypoints": [
     "static/css/main.a240c550.css",
-    "static/js/main.d915a72a.js"
+    "static/js/main.0ae3304d.js"
   ]
 }
