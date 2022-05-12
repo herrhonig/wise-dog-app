@@ -10,10 +10,7 @@ function App() {
     <Navbar />
 
     <div className={styles.appContainer}>
-      <Routes>
-          <Route path="/" element={<MainPage />} />  
-          <Route path="/favorites" element={<FavPage />} />  
-      </Routes>
+      <MainPage />
     </div>
     </>
 
