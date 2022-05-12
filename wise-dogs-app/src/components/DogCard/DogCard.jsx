@@ -12,7 +12,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 //Styled comp:
 const Card = styled.div `
-  height: 567px;
+  height: 530px;
   width: 350px;
   box-shadow: 0px 8.48242px 25.4473px rgba(29, 29, 27, 0.24);
   border-radius: 4.24121px;
@@ -39,6 +39,7 @@ const TipButton = styled.button `
 
   &:hover {
     background-color: #c9b821;
+    cursor: pointer;
   }
 `;
 const LikeBtn = styled.button `
@@ -54,6 +55,7 @@ const LikeBtn = styled.button `
 
   &:hover {
     background-color: #609106;
+    cursor: pointer;
   }  
 `;
 const DislikeBtn = styled.button `
@@ -69,11 +71,12 @@ const DislikeBtn = styled.button `
 
   &:hover {
     background-color: #c91038;
+    cursor: pointer;
   }
 `;
 const DogPic = styled.img `
   width: 98%;
-  height: 400px;
+  height: 365px;
   margin: 3px;
   border-radius: 4.77136px;
 `;

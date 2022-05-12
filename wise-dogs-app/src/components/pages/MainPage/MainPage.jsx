@@ -56,6 +56,7 @@ const FavBtn = styled.button `
 
   &:hover {
   background-color: #b2b2b6;
+  cursor: pointer;
   }
 `;
 
