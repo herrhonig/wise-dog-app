@@ -71,12 +71,10 @@ const FavBtn = styled.button `
 
 //COMPONENT:
 const MainPage = () => {
-
   const dispatch = useDispatch();
   const [favFilter, setFavFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
-  console.log('FETCH STATE =>', fetching);
 
   const dogs = useSelector(state => state.dogs.dogList);
   const tip = useSelector(state => state.dogs.tips);
@@ -84,7 +82,6 @@ const MainPage = () => {
 
   
   useEffect(() => {
-    console.log('FETCH');
     if (fetching) {
       setTimeout(() => {
         dispatch(getDogsThunk(currentPage));
@@ -113,7 +110,6 @@ const MainPage = () => {
   }
   return (
     <>
-    <div>{dogs.length}</div>
     {dogs?.length === 0 
     ?
     <LoaderContainer>
@@ -131,7 +127,6 @@ const MainPage = () => {
 
       {favFilter ? 
       <>
-      <div>Liked tips here:</div>
       <FavFlexContainer>
         {dogs.length && dogs?.map((dog) => dog.isLiked ? <DogCard key={dog?.id} id={dog?.id} image={dog?.url}/> : null)}
       </FavFlexContainer>
