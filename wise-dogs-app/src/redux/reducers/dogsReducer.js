@@ -7,9 +7,9 @@ export const dogsReducer = (state = initState, action) => {
   
   switch (type) {
     case GET_WISE_DOGS:
-      return {...state, dogList: payload};
-
-    case GET_DOGGO_TIP:
+      return {...state, dogList: [...state.dogList, ...payload]};
+      
+      case GET_DOGGO_TIP:
       return {...state, tips: `${payload} Woof!`};
     
     case DEL_DOG_CARD:

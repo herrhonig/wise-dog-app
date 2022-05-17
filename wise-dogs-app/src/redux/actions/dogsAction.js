@@ -1,6 +1,8 @@
 import dogsApi from '../api/dogsApi';
 import tipsApi from '../api/tipsApi';
 import {GET_WISE_DOGS, DEL_DOG_CARD, GET_DOGGO_TIP, ADD_DOG_TO_FAV} from '../types/dogTypes';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getDogs = (value) => {
   return {
@@ -28,10 +30,10 @@ export const addToFav = (id) => {
 }
 
 // THUNK:
-export const getDogsThunk = () => async (dispatch) => {
-  const dogs = await dogsApi.get();
+export const getDogsThunk = (page) => async (dispatch) => {
+  const dogs = await axios(`https://api.thedogapi.com/v1/images/search?limit=9&page=${page}&order=Desc`);
   const apiDogInfo = await dogs.data.map((item, index) => ({
-    id: index + 1,
+    id: uuidv4(),
     image: item.image,
     url: item.url,
     isLiked: false,

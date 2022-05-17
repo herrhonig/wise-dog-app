@@ -8,8 +8,17 @@ import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 
 //Styled comp:
-const FlexContainer = styled.div `
+const MainFlexContainer = styled.div `
   height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #c9c9e6;
+
+`;
+const CentralFlexContainer = styled.div `
+  height: 100%;
+  width: 1000px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -64,21 +73,47 @@ const FavBtn = styled.button `
 const MainPage = () => {
 
   const dispatch = useDispatch();
-  const [ favFilter,  setFavFilter ] = useState(false);
+  const [favFilter, setFavFilter] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fetching, setFetching] = useState(true);
+  console.log('FETCH STATE =>', fetching);
 
   const dogs = useSelector(state => state.dogs.dogList);
   const tip = useSelector(state => state.dogs.tips);
   const likeAmount = dogs.filter((dog) => dog.isLiked === true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(getDogsThunk()); 
-    }, 1500);
-  }, [dispatch]);
-
   
+  useEffect(() => {
+    console.log('FETCH');
+    if (fetching) {
+      setTimeout(() => {
+        dispatch(getDogsThunk(currentPage));
+        setCurrentPage(prev => prev +1);
+        setFetching(false);
+      }, 1100);
+    }
+  }, [fetching]);
+  
+  //Scrolling part:
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler);
+    return function() {
+      document.removeEventListener('scroll', scrollHandler);
+    }
+  }, []);
+  
+  const scrollHandler = (e) => {
+    //e.target.documentElement.scrollHeight -> общая высота стр с учетом скролла
+    //e.target.documentElement.scrollTop -> текущее положение скрола от верха страницы
+    //window.innerHeight -> высота видимой области страницы
+    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100)  {
+      setFetching(true);
+      console.log('scrolled bottom');
+    }
+  }
   return (
     <>
+    <div>{dogs.length}</div>
     {dogs?.length === 0 
     ?
     <LoaderContainer>
@@ -95,13 +130,16 @@ const MainPage = () => {
        </FavBtnContainer>
 
       {favFilter ? 
+      <>
+      <div>Liked tips here:</div>
       <FavFlexContainer>
         {dogs.length && dogs?.map((dog) => dog.isLiked ? <DogCard key={dog?.id} id={dog?.id} image={dog?.url}/> : null)}
       </FavFlexContainer>
+      </>
       :
-      <FlexContainer>
-        {dogs.length && dogs?.map((dog) => <DogCard key={dog?.id} id={dog?.id} image={dog?.url}/>)}
-      </FlexContainer>
+      <MainFlexContainer>
+          {dogs.length && dogs?.map((dog) => <DogCard key={dog?.id} id={dog?.id} image={dog?.url}/>)}
+      </MainFlexContainer>
       }
     </>
     }
